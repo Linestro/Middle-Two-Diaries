@@ -10,7 +10,7 @@ Holly: It's the same thing!
 Paul: Holly!
 Holly: I'm not Holly. I'm not Lulamae either. I don't know who I am. I'm like cat here,  We're a couple of no name slobs. We belong to nobody and nobody belongs to us. We don't even belong to each other.
 [...]
-Paul: You call yourself a free spirit, a "wild thing," and you're terrified somebody's gonna stick you in a cage. Well baby, you're already in that cage. You built it yourself. And it's not bounded in the west by Tulip, Texas, or in the east by Somali-land. It's wherever you go. Because no matter where you run, you just end up running into yourself.
+Paul: You call yourself a free spirit, a "wild thing," and you're terrified somebody's gonna stick you in a cage. Well baby, you're already in that cage you built it yourself. And it's not bounded in the west by Tulip, Texas, or in the east by Somali-land. It's wherever you go. Because no matter where you run, you just end up running into yourself.
 Paul: I've been carrying this thing around for months. I don't want it anymore. 
 
 Penny Dreadful:
@@ -24,3 +24,10 @@ Vanassa: I think you are the most human man... I have ever known.
 Monster: This dream I had ... This long dream of kinship with those unlike me, it is gone. When you’ve seen that of which you are capable, when you’ve stood in blood long enough ... What is left but to wade into a delosate shore? Away from all others. 
 
 Cowboy Bebop: 
+Faye: 何は無事たﾞね全く。 真不知道他在干什么
+Spike: たまに故郷も 会いに行くのさ。 只是想去看看过去的故乡吧
+Faye: 昔の女は 今てﾞも君のことを考えてると思うたﾞったら 大間違いよ。 如果以为原来的女人现在还想着自己那就大错特错了
+
+Percy Bysshe Shelley： 
+  
+       
