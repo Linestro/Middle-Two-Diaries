@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <cuda_runtime.h>
 #include "cusparse.h"
+#include <fstream>
 
 #define CLEANUP(s)                                   \
 do {                                                 \
@@ -32,6 +33,9 @@ int main(){
     cusparseStatus_t status;
     cusparseHandle_t handle=0;
     cusparseMatDescr_t descr=0;
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
     int *    cooRowIndexHostPtr=0;
     int *    cooColIndexHostPtr=0;
     double * cooValHostPtr=0;
@@ -41,6 +45,7 @@ int main(){
     int *    xIndHostPtr=0;
     double * xValHostPtr=0;
     double * yHostPtr=0;
+    double * y_static=0;
     int *    xInd=0;
     double * xVal=0;
     double * y=0;
@@ -92,15 +97,17 @@ int main(){
     /* create a dense vector */
     /*  y  = [1.0 2.0 3.0 4.0 5.0] (dense) */
     yHostPtr    = (double *)malloc(n       *sizeof(yHostPtr[0]));
-    if(!yHostPtr){
+    y_static    = (double *)malloc(n       *sizeof(yHostPtr[0]));
+    if(!yHostPtr || !y_static){
         CLEANUP("Host malloc failed (vectors)");
         return 1;
     }
-    yHostPtr[0] = 1.0;  
-    yHostPtr[1] = 2.0;  
-    yHostPtr[2] = 3.0;
-    yHostPtr[3] = 4.0;  
-    yHostPtr[4] = 5.0;
+
+    y_static[0] = 1.0;  
+    y_static[1] = 2.0;  
+    y_static[2] = 3.0;
+    y_static[3] = 4.0;  
+    y_static[4] = 5.0;
 
     /*
     //print the vectors
@@ -132,7 +139,7 @@ int main(){
     cudaStat3 = cudaMemcpy(cooVal,      cooValHostPtr,
                            (size_t)(nnz*sizeof(cooVal[0])),
                            cudaMemcpyHostToDevice);
-    cudaStat4 = cudaMemcpy(y,           yHostPtr,
+    cudaStat4 = cudaMemcpy(y,           y_static,
                            (size_t)(n*sizeof(y[0])),
                            cudaMemcpyHostToDevice);
     if ((cudaStat1 != cudaSuccess) ||
@@ -189,19 +196,31 @@ int main(){
         return 1;
     }
 
-
-
     /* SpmV */
-    status= cusparseDcsrmv(handle,CUSPARSE_OPERATION_NON_TRANSPOSE, n, n, nnz,
-                           &done, descr, cooVal, csrRowPtr, cooColIndex,
-                           y, &dzero, y);
-    if (status != CUSPARSE_STATUS_SUCCESS) {
-        CLEANUP("Matrix-vector multiplication failed");
-        return 1;
+    std::ofstream myfile;
+    myfile.open ("example.txt");   
+    printf("SpMV elapsed time:\n");
+    for(int i = 0; i < 10; i++){
+        cudaMemcpy(y, y_static, (size_t)(n*sizeof(y[0])), cudaMemcpyHostToDevice);
+        cudaEventRecord(start);
+        status= cusparseDcsrmv(handle,CUSPARSE_OPERATION_NON_TRANSPOSE, n, n, nnz,
+                            &done, descr, cooVal, csrRowPtr, cooColIndex,
+                            y, &dzero, y);
+        cudaEventRecord(stop);
+
+        if (status != CUSPARSE_STATUS_SUCCESS) {
+            CLEANUP("Matrix-vector multiplication failed");
+            return 1;
+        }
+        cudaMemcpy(yHostPtr, y, (size_t)(n*sizeof(y[0])), cudaMemcpyDeviceToHost);
+        cudaEventSynchronize(stop);
+        float milliseconds = -1;
+        cudaEventElapsedTime(&milliseconds, start, stop); 
+        myfile << 1000.0 * milliseconds << "\n";
+        cudaDeviceSynchronize();
     }
-    
-    cudaMemcpy(yHostPtr, y, (size_t)(n*sizeof(y[0])), cudaMemcpyDeviceToHost);
-    
+    myfile.close();
+
     /* destroy matrix descriptor */
     status = cusparseDestroyMatDescr(descr);
     descr = 0;
