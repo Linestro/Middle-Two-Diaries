@@ -200,7 +200,7 @@ int main(){
     std::ofstream myfile;
     myfile.open ("example.txt");   
     printf("SpMV elapsed time:\n");
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 100; i++){
         cudaMemcpy(y, y_static, (size_t)(n*sizeof(y[0])), cudaMemcpyHostToDevice);
         cudaEventRecord(start);
         status= cusparseDcsrmv(handle,CUSPARSE_OPERATION_NON_TRANSPOSE, n, n, nnz,
