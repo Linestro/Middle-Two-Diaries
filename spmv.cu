@@ -50,17 +50,18 @@ int main(){
     int      n, nnz;
     double dzero =0.0;
     double done = 1.0;
-    double dtwo  =2.0;
-    double dthree=3.0;
-    double dfive =5.0;
 
     printf("testing example\n");
     /* create the following sparse test matrix in COO format */
-    /* |1.0     2.0 3.0|
-       |    4.0        |
-       |5.0     6.0 7.0|
-       |    8.0     9.0| */
-    n=4; nnz=9;
+    /* |1.0     2.0 3.0     |
+       |    4.0             |
+       |5.0     6.0 7.0     |
+       |    8.0     9.0     |
+       |                10.0| */
+
+    n = 5;      // rank of the matrix
+    nnz = 10;   // number of non-zero elements
+    
     cooRowIndexHostPtr = (int *)   malloc(nnz*sizeof(cooRowIndexHostPtr[0]));
     cooColIndexHostPtr = (int *)   malloc(nnz*sizeof(cooColIndexHostPtr[0]));
     cooValHostPtr      = (double *)malloc(nnz*sizeof(cooValHostPtr[0]));
@@ -77,6 +78,7 @@ int main(){
     cooRowIndexHostPtr[6]=2; cooColIndexHostPtr[6]=3; cooValHostPtr[6]=7.0;
     cooRowIndexHostPtr[7]=3; cooColIndexHostPtr[7]=1; cooValHostPtr[7]=8.0;
     cooRowIndexHostPtr[8]=3; cooColIndexHostPtr[8]=3; cooValHostPtr[8]=9.0;
+    cooRowIndexHostPtr[9]=4; cooColIndexHostPtr[9]=4; cooValHostPtr[9]=10.0;
     /*
     //print the matrix
     printf("Input data:\n");
@@ -88,7 +90,7 @@ int main(){
     */
 
     /* create a dense vector */
-    /*  y  = [1.0 2.0 3.0 4.0] (dense) */
+    /*  y  = [1.0 2.0 3.0 4.0 5.0] (dense) */
     yHostPtr    = (double *)malloc(n       *sizeof(yHostPtr[0]));
     if(!yHostPtr){
         CLEANUP("Host malloc failed (vectors)");
@@ -98,9 +100,11 @@ int main(){
     yHostPtr[1] = 2.0;  
     yHostPtr[2] = 3.0;
     yHostPtr[3] = 4.0;  
+    yHostPtr[4] = 5.0;
+
     /*
     //print the vectors
-    for (int j=0; j<2; j++){
+    for (int j=0; j<1; j++){
         for (int i=0; i<n; i++){
             printf("yHostPtr[%d,%d]=%f\n",i,j,yHostPtr[i+n*j]);
         }
