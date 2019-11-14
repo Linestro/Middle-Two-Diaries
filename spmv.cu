@@ -3,6 +3,7 @@
 #include <cuda_runtime.h>
 #include "cusparse.h"
 #include <fstream>
+#include <time.h>
 
 #define CLEANUP(s)                                   \
 do {                                                 \
@@ -103,11 +104,10 @@ int main(){
         return 1;
     }
 
-    y_static[0] = 1.0;  
-    y_static[1] = 2.0;  
-    y_static[2] = 3.0;
-    y_static[3] = 4.0;  
-    y_static[4] = 5.0;
+    srand (time(NULL));
+    for(int i = 0; i < n; i++){
+        y_static[i] = rand() / double(RAND_MAX);
+    }
 
     /*
     //print the vectors
