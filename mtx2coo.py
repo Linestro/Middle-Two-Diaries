@@ -1,7 +1,7 @@
 from scipy.io import mmread
 import numpy as np
 from scipy import sparse
-A = mmread('bwm200.mtx')
+A = mmread('grid2.mtx')
 # Coo = sparse.coo_matrix(A.toarray())
 B = A.toarray()
 # print(B.shape)
