@@ -65,8 +65,8 @@ int main(){
        |    8.0     9.0     |
        |                10.0| */
 
-    n = 5000;      // rank of the matrix
-    float density = 0.2;
+    n = 500;      // rank of the matrix
+    float density = 0.3;
 
     nnz = n * n * density;   // number of non-zero elements
 
