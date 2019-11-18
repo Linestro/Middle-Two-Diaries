@@ -6,12 +6,12 @@ from scipy.sparse import random
 def gen_random_sparse_matrix(size, density):
     return random(size, size, density=density, \
         random_state=int(100000.0 * np.random.rand()))
-# A = mmread('grid2.mtx')
+A = mmread('hydr1c_A_01.mtx')
 # Coo = sparse.coo_matrix(A.toarray())
-# B = A.toarray()
-B = gen_random_sparse_matrix(5000, 0.3).toarray()
-# print(B.shape)
-
+B = A.toarray()
+# B = gen_random_sparse_matrix(100, 0.1).toarray()
+# print(np.count_nonzero(B))
+# exit(0)
 print('''
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,8 +80,8 @@ int main(){
        |    8.0     9.0     |
        |                10.0| */
 
-    n = 5000;      // rank of the matrix
-    nnz = n * n * 0.3;   // number of non-zero elements
+    n = 5308;      // rank of the matrix
+    nnz = 22592;   // number of non-zero elements
     
     cooRowIndexHostPtr = (int *)   malloc(nnz*sizeof(cooRowIndexHostPtr[0]));
     cooColIndexHostPtr = (int *)   malloc(nnz*sizeof(cooColIndexHostPtr[0]));
@@ -220,7 +220,7 @@ print('''
     std::ofstream myfile;
     myfile.open ("example.txt");   
     printf("SpMV elapsed time:");
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 1000; i++){
         srand (time(NULL));
         for(int i = 0; i < n; i++){
             y_static[i] = rand() / double(RAND_MAX);
@@ -262,13 +262,13 @@ print('''
         return 1;
     }
 
-    printf("SpMV results:");
+    /* printf("SpMV results:");
     for (int j=0; j<1; j++){
         for (int i=0; i<n; i++){
             printf("yHostPtr[%d,%d]=%f",i,j,yHostPtr[i+n*j]);
         }
     }
-    
+    */
     CLEANUP("example test PASSED");
     return 0;
 }
