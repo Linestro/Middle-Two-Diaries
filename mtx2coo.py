@@ -6,7 +6,7 @@ from scipy.sparse import random
 def gen_random_sparse_matrix(size, density):
     return random(size, size, density=density, \
         random_state=int(100000.0 * np.random.rand()))
-A = mmread('hydr1c_A_01.mtx')
+A = mmread('mtx_folder/young3c.mtx')
 # Coo = sparse.coo_matrix(A.toarray())
 B = A.toarray()
 # B = gen_random_sparse_matrix(100, 0.1).toarray()
@@ -19,6 +19,7 @@ print('''
 #include "cusparse.h"
 #include <fstream>
 #include <time.h>
+#include <ctime>
 
 #define CLEANUP(s)                                   \
 do {                                                 \
@@ -80,8 +81,8 @@ int main(){
        |    8.0     9.0     |
        |                10.0| */
 
-    n = 5308;      // rank of the matrix
-    nnz = 22592;   // number of non-zero elements
+    n = 841;      // rank of the matrix
+    nnz = 3988;   // number of non-zero elements
     
     cooRowIndexHostPtr = (int *)   malloc(nnz*sizeof(cooRowIndexHostPtr[0]));
     cooColIndexHostPtr = (int *)   malloc(nnz*sizeof(cooColIndexHostPtr[0]));
@@ -220,31 +221,41 @@ print('''
     std::ofstream myfile;
     myfile.open ("example.txt");   
     printf("SpMV elapsed time:");
-    for(int i = 0; i < 1000; i++){
+    for(int kk = 0; kk < 10; kk++){
         srand (time(NULL));
         for(int i = 0; i < n; i++){
             y_static[i] = rand() / double(RAND_MAX);
         }
-
         cudaMemcpy(y, y_static, (size_t)(n*sizeof(y[0])), cudaMemcpyHostToDevice);
-        cudaEventRecord(start);
-        status= cusparseDcsrmv(handle,CUSPARSE_OPERATION_NON_TRANSPOSE, n, n, nnz,
-                            &done, descr, cooVal, csrRowPtr, cooColIndex,
-                            y, &dzero, y);
-        cudaEventRecord(stop);
+        std::clock_t t1 = std::clock();
+        for(int i = 0; i < 10000; i++){
+            // cudaEventCreate(&start);
+            // cudaEventCreate(&stop);
+            // cudaEventRecord(start, 0);
+            status= cusparseDcsrmv(handle,CUSPARSE_OPERATION_NON_TRANSPOSE, n, n, nnz,
+                                &done, descr, cooVal, csrRowPtr, cooColIndex,
+                                y, &dzero, y);            
 
-        if (status != CUSPARSE_STATUS_SUCCESS) {
-            CLEANUP("Matrix-vector multiplication failed");
-            return 1;
+            // if (status != CUSPARSE_STATUS_SUCCESS) {
+            //     CLEANUP("Matrix-vector multiplication failed");
+            //     return 1;
+            // }
+            // cudaEventRecord(stop, 0);
+            // cudaEventSynchronize(stop);
+            // float elapsed = -1;
+            // cudaEventElapsedTime(&elapsed, start, stop);
+
+            // cudaEventSynchronize(stop);
+            // cudaEventElapsedTime(&milliseconds, start, stop); 
+            // cudaEventDestroy(start);
+            // cudaEventDestroy(stop);
+            cudaDeviceSynchronize();
         }
-        cudaMemcpy(yHostPtr, y, (size_t)(n*sizeof(y[0])), cudaMemcpyDeviceToHost);
-        cudaEventSynchronize(stop);
-        float milliseconds = -1;
-        cudaEventElapsedTime(&milliseconds, start, stop); 
-        myfile << 1000.0 * milliseconds << " ";
-        cudaDeviceSynchronize();
+        std::clock_t t2 = std::clock();
+        myfile << 1000.0 * (float)(t2 - t1) / float(CLOCKS_PER_SEC * 10000.0) << " ";
     }
     myfile.close();
+    cudaMemcpy(yHostPtr, y, (size_t)(n*sizeof(y[0])), cudaMemcpyDeviceToHost);
 
     /* destroy matrix descriptor */
     status = cusparseDestroyMatDescr(descr);
@@ -272,5 +283,6 @@ print('''
     CLEANUP("example test PASSED");
     return 0;
 }
+
 
 ''')
