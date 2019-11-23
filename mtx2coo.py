@@ -6,7 +6,7 @@ from scipy.sparse import random
 def gen_random_sparse_matrix(size, density):
     return random(size, size, density=density, \
         random_state=int(100000.0 * np.random.rand()))
-A = mmread('mtx_folder/young3c.mtx')
+A = mmread('mtx_folder/California.mtx')
 # Coo = sparse.coo_matrix(A.toarray())
 B = A.toarray()
 # B = gen_random_sparse_matrix(100, 0.1).toarray()
@@ -81,8 +81,8 @@ int main(){
        |    8.0     9.0     |
        |                10.0| */
 
-    n = 841;      // rank of the matrix
-    nnz = 3988;   // number of non-zero elements
+    n = 9664;      // rank of the matrix
+    nnz = 16150;   // number of non-zero elements
     
     cooRowIndexHostPtr = (int *)   malloc(nnz*sizeof(cooRowIndexHostPtr[0]));
     cooColIndexHostPtr = (int *)   malloc(nnz*sizeof(cooColIndexHostPtr[0]));
