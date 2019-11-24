@@ -29,8 +29,10 @@ Spike: たまに故郷も 会いに行くのさ。 只是想去看看过去的�
 Faye: 昔の女は 今てﾞも君のことを考えてると思うたﾞったら 大間違いよ。 如果以为原来的女人现在还想着自己那就大错特错了
 
 Camus:
+There is not love of life without despair about life. 
+于是我悟出了，一个人即使只生活过一天，他也可以在监狱待上一百年而不至于难以度日，他有足够的东西可供回忆，决不会感到烦闷无聊。从某种意义上来说，这也是一种愉快。
 他说他一直在研究我的灵魂，结果发现其中空虚无物。他说我实际上没有灵魂，没有丝毫人性，没有人任何一条在人类灵魂中占神圣地位的道德原则，所有这些都与我格格不入。为了把一切都做的完美，为了使我感到不那么孤独，我还希望处决我的那一天有很多人来观看，希望他们对我报以仇恨的喊叫声。
 
-Percy Bysshe Shelley： 
-  
-       
+Shelley:
+The pleasure that is in sorrow is sweeter than the pleasure of pleasure itself.
+
