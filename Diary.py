@@ -1,6 +1,6 @@
 Tiffany's Breakfast: 
 Paul: Holly I am in love with you.
-Holly (Audrey): So what.
+Holly (Audrey Hepburn): So what.
 Paul: So what? So plenty! I love you, you belong to me!
 Holly: [tearfully] No. People don't belong to people.
 Paul: Of course they do!
@@ -15,7 +15,7 @@ Paul: I've been carrying this thing around for months. I don't want it anymore.
 
 Penny Dreadful:
 Vanessa (Eva Green): Are you leaving? 
-Monster (Frankelin's creature): Yes. 
+Monster (Frankenstein's monster): Yes. 
 Vanessa: For long? 
 Monster: For ever. 
 Vanessa: Where will you go?
@@ -36,3 +36,4 @@ There is not love of life without despair about life.
 Shelley:
 The pleasure that is in sorrow is sweeter than the pleasure of pleasure itself.
 
+京极夏彦:
